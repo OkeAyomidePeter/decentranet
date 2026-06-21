@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { createRoot } from 'react-dom/client'
 import StatusBar from './components/StatusBar.jsx'
 import NodeCard from './components/NodeCard.jsx'
 import NetworkMap from './components/NetworkMap.jsx'
@@ -6,9 +7,10 @@ import './index.css'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
-export default function App() {
+function App() {
   const [nodes, setNodes] = useState(null)
   const [summary, setSummary] = useState(null)
+  const [error, setError] = useState(null)
 
   const fetchData = useCallback(async () => {
     try {
@@ -16,10 +18,12 @@ export default function App() {
         fetch(`${API_BASE}/nodes`),
         fetch(`${API_BASE}/network/summary`),
       ])
+      if (!nodesRes.ok || !summaryRes.ok) throw new Error('Backend unavailable')
       setNodes(await nodesRes.json())
       setSummary(await summaryRes.json())
-    } catch {
-      // silently retry on next poll
+      setError(null)
+    } catch (e) {
+      setError(e.message)
     }
   }, [])
 
@@ -47,6 +51,14 @@ export default function App() {
     }
   }, [fetchData])
 
+  if (error) {
+    return (
+      <div className="app-loading">
+        <span style={{ color: 'var(--offline)' }}>BACKEND OFFLINE — {error}</span>
+      </div>
+    )
+  }
+
   if (!nodes) {
     return (
       <div className="app-loading">
@@ -72,3 +84,6 @@ export default function App() {
     </div>
   )
 }
+
+const root = createRoot(document.getElementById('root'))
+root.render(<App />)

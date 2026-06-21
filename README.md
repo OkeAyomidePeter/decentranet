@@ -52,11 +52,28 @@ Then open **http://localhost:3000** in your browser.
 
 ```bash
 cd backend
+uv venv
+uv pip install -r requirements.txt
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Or with pip:
+
+```bash
+cd backend
 pip install -r requirements.txt
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 ### Frontend (new terminal)
+
+```bash
+cd frontend
+pnpm install
+pnpm run dev
+```
+
+Or with npm:
 
 ```bash
 cd frontend

@@ -61,6 +61,11 @@ NODES = {
 
 app = FastAPI(title="DecentraNet API", version="1.0.0")
 
+
+@app.get("/")
+def root():
+    return {"service": "DecentraNet API", "status": "running", "version": "1.0.0"}
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
