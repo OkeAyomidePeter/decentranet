@@ -1,0 +1,19 @@
+DecentraNet - Cisco Packet Tracer Topology
+============================================
+
+This file is a placeholder. The actual .pkt file must be created manually
+in Cisco Packet Tracer with the following configuration:
+
+Topology:
+  - 3 Routers: R-HQ, R-NodeA, R-NodeB
+  - 3 PCs/LANs: HQ (192.168.10.0/24), Node-A (192.168.20.0/24), Node-B (192.168.30.0/24)
+  - WAN Links: HQ-NodeA (10.0.12.0/30), HQ-NodeB (10.0.13.0/30)
+
+Protocols:
+  - OSPF Process 1, Area 0
+  - PPP with CHAP (password: decentranet) on serial WAN links
+  - NAT Overload (PAT) on R-HQ, ACL 1 covering all three LAN subnets
+  - Extended ACL 100 blocking Telnet (port 23) inbound on R-HQ WAN interfaces
+  - Clock rate 64000 on DCE ends (R-HQ serial interfaces)
+
+Refer to DECENTRANET_SPEC.md for full details.
